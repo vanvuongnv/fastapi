@@ -1,5 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, Enum, Time, Uuid
-from app.models.TaskState import TaskState
+from models.TaskState import TaskState
+from schemas.user import User
 from database import Base
 from schemas.base_entity import BaseEntity
 from sqlalchemy.orm import relationship
@@ -16,4 +17,4 @@ class Task(Base, BaseEntity):
     created_at = Column(Time)
     updated_at = Column(Time)
 
-    user = relationship('User')
+    user = relationship(User)
