@@ -1,6 +1,6 @@
 from uuid import UUID
 from sqlalchemy.orm import Session
-from models.CompanyModel import CompanyModel
+from models.company_model import CompanyModel
 
 from schemas.company import Company
 

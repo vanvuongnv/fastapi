@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, Enum, Time, Uuid
-from models.TaskState import TaskState
+from models.task_state import TaskState
 from schemas.user import User
 from database import Base
 from schemas.base_entity import BaseEntity

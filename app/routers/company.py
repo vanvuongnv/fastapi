@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from routers.error import http_forbiden
 from schemas.user import User
 from services.auth_service import token_interceptor
-from models.CompanyModel import CompanyModel
+from models.company_model import CompanyModel
 from schemas.company import Company
 from database import get_db_context
 from services import company_service
