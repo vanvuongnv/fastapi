@@ -30,14 +30,14 @@ async def index(page: int = Query(ge=1, default=1),
     }
 
 @router.get('/{company_id}')
-async def getById(company_id: UUID, db: Session = Depends(get_db_context)):
+async def get_by_id(company_id: UUID, db: Session = Depends(get_db_context)):
     item = company_service.get_company_by_id(company_id, db)
     if item is not None:
         return item
     raise http_exception()
 
 @router.post('', status_code=status.HTTP_201_CREATED)
-async def addCompany(request: CompanyModel, 
+async def add_company(request: CompanyModel, 
                      user: User = Depends(token_interceptor),
                      db: Session = Depends(get_db_context)):
     if not user.is_admin:
@@ -48,7 +48,7 @@ async def addCompany(request: CompanyModel,
     return company
 
 @router.put('/{company_id}')
-async def updateCompany(company_id: UUID,
+async def update_company(company_id: UUID,
                      request: CompanyModel, 
                      user: User = Depends(token_interceptor),
                      db: Session = Depends(get_db_context)):
@@ -63,7 +63,7 @@ async def updateCompany(company_id: UUID,
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 @router.delete('/{company_id}')
-async def deleteCompany(company_id: UUID,
+async def delete_company(company_id: UUID,
                      user: User = Depends(token_interceptor),
                      db: Session = Depends(get_db_context)):
     if not user.is_admin:
