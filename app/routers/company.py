@@ -1,6 +1,7 @@
 
 from uuid import UUID
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, Query, Response, status
+from pydantic import Json
 from sqlalchemy.orm import Session
 from routers.error import http_forbiden
 from schemas.user import User
@@ -13,9 +14,20 @@ from routers.error import http_exception, http_forbiden, http_badrequest
 router = APIRouter(prefix='/api/v1/companies', tags=['Companies'])
 
 @router.get('')
-async def index(db: Session = Depends(get_db_context)):
-    items = company_service.get_companies(db)
-    return items
+async def index(page: int = Query(ge=1, default=1), 
+                size: int = Query(ge=1, le=50, default=10), 
+                keyword: str = Query(default=None), 
+                db: Session = Depends(get_db_context)):
+    items = company_service.get_companies(page, size, keyword, db)
+    total = company_service.count_companies(keyword, db)
+    return {
+        "items": items,
+        "pageInfo": {
+            "total": total,
+            "size": size,
+            "page": page
+        }
+    }
 
 @router.get('/{company_id}')
 async def getById(company_id: UUID, db: Session = Depends(get_db_context)):
